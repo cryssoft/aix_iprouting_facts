@@ -20,11 +20,11 @@
 #
 #-------------------------------------------------------------------------------
 #
-#  LAST MOD:    (never)
+#  LAST MOD:    February 2, 2023
 #
 #  MODIFICATION HISTORY:
 #
-#       (none)
+#  2023/02/02 - cp - Added the local/loopback tagging for both IPv4 and IPv6.
 #
 #-------------------------------------------------------------------------------
 #
@@ -73,8 +73,8 @@ Facter.add(:aix_iprouting) do
                     l_aixIPRouting[l_list[0]]['interface'] = l_list[5]
 
                     #  Annotate the type of route this is based on the destination and gateway
-                    if (l_list[1] == '127.0.0.1')
-                        l_aixIPRouting[l_list[0]]['type'] = 'local'
+                    if ((l_list[1] == '127.0.0.1') or (l_list[1] == '::1%1'))
+                        l_aixIPRouting[l_list[0]]['type'] = 'loopback'
                     else
                         l_pieces = l_list[0].split('/')
                         if (l_pieces.length == 2)
